@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TerrainRender", "TerrainRender\TerrainRender.vcxproj", "{9D993BEF-83AC-4AA5-8022-1D7DBD1DB523}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D993BEF-83AC-4AA5-8022-1D7DBD1DB523}.Debug|x64.ActiveCfg = Debug|x64
+		{9D993BEF-83AC-4AA5-8022-1D7DBD1DB523}.Debug|x64.Build.0 = Debug|x64
+		{9D993BEF-83AC-4AA5-8022-1D7DBD1DB523}.Debug|x86.ActiveCfg = Debug|Win32
+		{9D993BEF-83AC-4AA5-8022-1D7DBD1DB523}.Debug|x86.Build.0 = Debug|Win32
+		{9D993BEF-83AC-4AA5-8022-1D7DBD1DB523}.Release|x64.ActiveCfg = Release|x64
+		{9D993BEF-83AC-4AA5-8022-1D7DBD1DB523}.Release|x64.Build.0 = Release|x64
+		{9D993BEF-83AC-4AA5-8022-1D7DBD1DB523}.Release|x86.ActiveCfg = Release|Win32
+		{9D993BEF-83AC-4AA5-8022-1D7DBD1DB523}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6189CEC-8379-445B-B312-4733C430E721}
+	EndGlobalSection
+EndGlobal
