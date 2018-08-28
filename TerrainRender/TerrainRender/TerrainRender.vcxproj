@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Desktop\TerrainRender\libinclude\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Desktop\TerrainRender\libinclude\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\GitHub\Terrain_Render\TerrainRender\libinclude\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\github\OpenGL_learning_project\libinclude\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

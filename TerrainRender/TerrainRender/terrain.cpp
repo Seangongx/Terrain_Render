@@ -154,8 +154,8 @@ int main()
 		ourShader.setMat4("view", view);
 
 		glm::mat4 model;
-		model = glm::rotate(model, -90.0f, glm::vec3(1.0, 0.0, 0.0));//如果注释掉会有90度的偏转
-		model = glm::scale(model, glm::vec3(0.03, 0.03, 0.03));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));//如果注释掉会有90度的偏转
+		model = glm::scale(model, glm::vec3(0.05f));
 		ourShader.setMat4("model", model);
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
