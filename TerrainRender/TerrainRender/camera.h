@@ -17,7 +17,7 @@ enum Camera_Movement {
 };
 
 // 默认初始值
-const float YAW = -90.0f;
+const float YAW = -90.0f;//一开始看向cameraFront的方向即Z轴负方向
 const float PITCH = 0.0f;
 const float SPEED = 2.5f;
 const float SENSITIVTY = 0.1f;
@@ -136,7 +136,7 @@ private:
 		Front = glm::normalize(front);
 		// Also re-calculate the Right and Up vector
 		// Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-		Right = glm::normalize(glm::cross(Front, WorldUp)); 
+		Right = glm::normalize(glm::cross(Front, WorldUp)); //默认计算方法为右手系
 		Up = glm::normalize(glm::cross(Right, Front));
 	}
 };

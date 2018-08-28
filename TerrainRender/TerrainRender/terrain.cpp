@@ -39,15 +39,15 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 int main()
 {
-	int vrows = f_get_rows("vertices.txt");
-	int vcols = f_get_columns("vertices.txt");
-	int irows = f_get_rows("indices.txt");
-	int icols = f_get_columns("indices.txt");
+	int vrows = f_get_rows("Data\\vertices.txt");
+	int vcols = f_get_columns("Data\\vertices.txt");
+	int irows = f_get_rows("Data\\indices.txt");
+	int icols = f_get_columns("Data\\indices.txt");
 
 	// load data
 	Terrain_Data data(vrows, vcols, irows, icols);
-	double** Vertices = data.Load_Vertices("vertices.txt");
-	unsigned int** Indices = data.Load_Indices("indices.txt");
+	double** Vertices = data.Load_Vertices("Data\\vertices.txt");
+	unsigned int** Indices = data.Load_Indices("Data\\indices.txt");
 	//d_show2vd(Vertices, vrows, vcols - 1);
 	//d_show2vui(Indices, irows, icols - 1);
 
@@ -89,8 +89,6 @@ int main()
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//捕捉鼠标光标，让其在窗口内消失
-
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -98,10 +96,14 @@ int main()
 		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
+
 	//设置全局OpenGL状态，增加深度信息，必须在glad找到所有函数指针之后才能调用
 	glEnable(GL_DEPTH_TEST);
+	//绘制属性初始化
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//捕捉鼠标光标，让其在窗口内消失
 
-	Shader ourShader("terrain_shader.vs", "terrain_shader.fs");
+	Shader ourShader("Shaders\\terrain_shader.vs", "Shaders\\terrain_shader.fs");
 
 	unsigned int VBO, VAO, EBO;
 	glGenVertexArrays(1, &VAO);
@@ -124,7 +126,6 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -146,14 +147,14 @@ int main()
 		ourShader.use();
 
 		glm::mat4 projection;
-		projection = glm::perspective(ourCamera.Zoom, (float)DEF_WINDOW_WIDTH / (float)DEF_WINDOW_HEIGHT, 0.1f, 500.0f); //glm::radians(fov)
+		projection = glm::perspective(ourCamera.Zoom, (float)DEF_WINDOW_WIDTH / (float)DEF_WINDOW_HEIGHT, 0.1f, 100.0f); //glm::radians(fov)
 		ourShader.setMat4("projection", projection);
 
 		glm::mat4 view = ourCamera.GetViewMatrix();
 		ourShader.setMat4("view", view);
 
 		glm::mat4 model;
-		model = glm::rotate(model, 90.0f, glm::vec3(1.0, 0.0, 0.0));//如果注释掉会有90度的偏转
+		model = glm::rotate(model, -90.0f, glm::vec3(1.0, 0.0, 0.0));//如果注释掉会有90度的偏转
 		model = glm::scale(model, glm::vec3(0.03, 0.03, 0.03));
 		ourShader.setMat4("model", model);
 
@@ -194,6 +195,19 @@ void processInput(GLFWwindow *window)
 		else if(polyState == GL_LINE)
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_CAPS_LOCK) == GLFW_PRESS)
+	{
+		GLint cursorState = glfwGetInputMode(window, GLFW_CURSOR);
+		if (cursorState == GLFW_CURSOR_DISABLED)
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+		else if (cursorState == GL_LINE)
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
 	}
 

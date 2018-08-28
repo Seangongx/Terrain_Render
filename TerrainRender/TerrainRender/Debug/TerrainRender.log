@@ -11,14 +11,14 @@
   GLM: yaw function returning degrees is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
   GLM: angle function returning degrees is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
   GLM: angleAxis function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-d:\desktop\terrainrender\terrainrender\terrain.cpp(132): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-d:\desktop\terrainrender\terrainrender\terrain.cpp(222): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-d:\desktop\terrainrender\terrainrender\terrain.cpp(223): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-d:\desktop\terrainrender\terrainrender\terrain.cpp(227): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-d:\desktop\terrainrender\terrainrender\terrain.cpp(228): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-d:\desktop\terrainrender\terrainrender\terrain.cpp(230): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-d:\desktop\terrainrender\terrainrender\terrain.cpp(231): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-d:\desktop\terrainrender\terrainrender\terrain.cpp(238): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(133): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(235): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(236): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(240): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(241): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(243): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(244): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(251): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
   GLM: perspective function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
   GLM: rotate function taking degrees as a parameter is deprecated. #define GLM_FORCE_RADIANS before including GLM headers to remove this message.
-  TerrainRender.vcxproj -> D:\Desktop\TerrainRender\Debug\TerrainRender.exe
+  TerrainRender.vcxproj -> F:\GitHub\Terrain_Render\TerrainRender\Debug\TerrainRender.exe
