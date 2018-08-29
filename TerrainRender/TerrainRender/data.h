@@ -7,6 +7,8 @@
 #include <fstream>
 #include <string>//getline
 #include <cmath>
+#include <vector>
+#include <algorithm>//for each
 using namespace std;
 
 #define MAXDATA 10000000//Max data quantity
@@ -14,6 +16,24 @@ using namespace std;
 #define MAXCOLUMNS 4//Initial value of coloumns
 #define READCHAR 30
 #define READROW 200
+
+vector<string> str_split(const string str, const string pattern)
+{
+	string::size_type pos;
+	vector<string> vec;
+	string buf(str);
+	int size = str.size();
+	for (int i = 0; i < size; i = pos + pattern.size())//注意这一步，原写法是i++，在if条件最后一步为i = pos + pattern.size() - 1
+	{
+		pos = buf.find(pattern, i);
+		if (pos < size)
+		{
+			string temp = buf.substr(i, pos - i);
+			vec.push_back(temp);
+		}
+	}
+	return vec;
+}
 
 class Terrain_Data
 {
@@ -26,6 +46,9 @@ private:
 	double **verticesMap = NULL;
 	unsigned int **indicesMap = NULL;
 
+	double *verticesStream = NULL;
+	unsigned int *indicesStream = NULL;
+
 	int maxRows = MAXROWS;
 	int maxColumns = MAXCOLUMNS;
 
@@ -35,7 +58,7 @@ public:
 		vertices_rows = vrows; vertices_columns = vcols;
 		indices_rows = irows; indices_columns = icols;
 
-		verticesMap = (double**)malloc(vertices_rows * sizeof(double*));//注意sizeof的double*
+/*		verticesMap = (double**)malloc(vertices_rows * sizeof(double*));//注意sizeof的double*
 		indicesMap = (unsigned int**)malloc(indices_rows * sizeof(unsigned int*));
 
 		int i = 0, j = 0;
@@ -55,6 +78,11 @@ public:
 				indicesMap[i][j] = INT_MIN;
 			}
 		}
+	*/
+		verticesStream = (double*)malloc(vertices_rows * vertices_columns * sizeof(double));
+		indicesStream = (unsigned int*)malloc(indices_rows * indices_columns * sizeof(unsigned int));
+
+
 	}
 
 	void Data_State()
@@ -99,7 +127,7 @@ public:
 		int i = 0;//substring count
 
 		ifstream fin(filename, ios::in);
-		if (!fin){
+		if (!fin) {
 			cout << "The file is not exist!" << endl;
 			return NULL;
 		}
@@ -126,9 +154,35 @@ public:
 			coloumncount = 0;
 			flag = 0;
 		}
-		
+
 		fin.close();
 		return verticesMap;
+	}
+
+	double* Load_1d_Vertices(const string filename)
+	{
+		string rowstring;
+		vector<string> temp;
+		int count = 0;
+
+		ifstream fin(filename, ios::in);
+		if (!fin) {
+			cout << "The file is not exist!" << endl;
+			return NULL;
+		}
+		while (getline(fin, rowstring))
+		{
+			temp = str_split(rowstring, " ");
+			for (int i = 0; i < temp.size(); i++)
+			{
+				verticesStream[count++] = stod(temp[i]);
+			}
+			temp.clear();
+		}
+
+		fin.close();
+		return verticesStream;
+
 	}
 
 	unsigned int** Load_Indices(const string filename)
@@ -142,7 +196,7 @@ public:
 		int i = 0;//substring count
 
 		ifstream fin(filename, ios::in);
-		if (!fin){
+		if (!fin) {
 			cout << "The file is not exist!" << endl;
 			return NULL;
 		}
@@ -173,6 +227,32 @@ public:
 		fin.close();
 		return indicesMap;
 	}
+
+	unsigned int * Load_1ui_Indices(const string filename)
+	{
+		string rowstring;
+		vector<string> temp;
+		int count = 0;
+
+		ifstream fin(filename, ios::in);
+		if (!fin) {
+			cout << "The file is not exist!" << endl;
+			return NULL;
+		}
+		while (getline(fin, rowstring))
+		{
+			temp = str_split(rowstring, " ");
+			for (int i = 0; i < temp.size(); i++)
+			{
+				indicesStream[count++] = stod(temp[i]);
+			}
+			temp.clear();
+		}
+
+		fin.close();
+		return indicesStream;
+	}
+
 
 	int Sizeof_Vertices()//TODO:var types
 	{
@@ -359,6 +439,7 @@ bool d_copy_indices(unsigned int* indices, unsigned int* copy, int count)
 		return true;
 	else return false;
 }
+
 
 
 #endif

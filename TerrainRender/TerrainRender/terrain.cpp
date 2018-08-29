@@ -46,14 +46,19 @@ int main()
 
 	// load data
 	Terrain_Data data(vrows, vcols, irows, icols);
-	double** Vertices = data.Load_Vertices("Data\\vertices.txt");
-	unsigned int** Indices = data.Load_Indices("Data\\indices.txt");
+	double* Vertices = data.Load_1d_Vertices("Data\\vertices.txt");
+	unsigned int* Indices = data.Load_1ui_Indices("Data\\indices.txt");
+
+
+/*	//double** Vertices = data.Load_Vertices("Data\\vertices.txt");
+	//unsigned int** Indices = data.Load_Indices("Data\\indices.txt");
 	//d_show2vd(Vertices, vrows, vcols - 1);
 	//d_show2vui(Indices, irows, icols - 1);
 
 	//pick_vertices为顶点一维数组， pick_indices为索引一维数组
 	double *pick_vertices = new double[TESTVROWS * (MAXCOLUMNS - 1)];
 	unsigned int *pick_indices = new unsigned int[TESTIROWS * (MAXCOLUMNS - 1)];
+
 	if (!d_pick_vertices(Vertices, pick_vertices, vrows, vcols - 1))
 	{
 		cout << "data load error!" << endl;
@@ -64,7 +69,7 @@ int main()
 		cout << "data load error!" << endl;
 	}
 	//d_show1vui(pick_indices, irows, icols - 1);
-
+*/
 
 	// glfw: initialize and configure
 	// ------------------------------
@@ -116,9 +121,9 @@ int main()
 	int sizeof_indices = TESTIROWS * 3 * sizeof(unsigned int);
 	//原版写入
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof_vertices, pick_vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof_vertices, Vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof_indices, pick_indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof_indices, Indices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_DOUBLE, GL_TRUE, 3 * sizeof(double), (void*)0);
 
 	glEnableVertexAttribArray(0);
@@ -147,7 +152,7 @@ int main()
 		ourShader.use();
 
 		glm::mat4 projection;
-		projection = glm::perspective(ourCamera.Zoom, (float)DEF_WINDOW_WIDTH / (float)DEF_WINDOW_HEIGHT, 0.1f, 100.0f); //glm::radians(fov)
+		projection = glm::perspective(glm::radians(ourCamera.Zoom), (float)DEF_WINDOW_WIDTH / (float)DEF_WINDOW_HEIGHT, 0.1f, 100.0f); //glm::radians(fov)
 		ourShader.setMat4("projection", projection);
 
 		glm::mat4 view = ourCamera.GetViewMatrix();
@@ -205,7 +210,7 @@ void processInput(GLFWwindow *window)
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
-		else if (cursorState == GL_LINE)
+		else if (cursorState == GLFW_CURSOR_NORMAL)
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
