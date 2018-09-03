@@ -121,9 +121,9 @@ int main()
 	int sizeof_indices = TESTIROWS * 3 * sizeof(unsigned int);
 	//‘≠∞Ê–¥»Î
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof_vertices, Vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, data.Sizeof_Vertices(), Vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof_indices, Indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.Sizeof_Indices(), Indices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_DOUBLE, GL_TRUE, 3 * sizeof(double), (void*)0);
 
 	glEnableVertexAttribArray(0);
@@ -148,7 +148,6 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// draw our first triangle
 		ourShader.use();
 
 		glm::mat4 projection;
