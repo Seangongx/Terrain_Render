@@ -1,14 +1,14 @@
 ﻿  terrain.cpp
-f:\github\terrain_render\terrainrender\terrainrender\data.h(29): warning C4018: “<”: 有符号/无符号不匹配
-f:\github\terrain_render\terrainrender\terrainrender\data.h(176): warning C4018: “<”: 有符号/无符号不匹配
-f:\github\terrain_render\terrainrender\terrainrender\data.h(245): warning C4018: “<”: 有符号/无符号不匹配
-f:\github\terrain_render\terrainrender\terrainrender\data.h(247): warning C4244: “=”: 从“double”转换到“unsigned int”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(138): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(240): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(241): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(245): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(246): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(248): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(249): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(256): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\data.h(35): warning C4018: “<”: 有符号/无符号不匹配
+f:\github\terrain_render\terrainrender\terrainrender\data.h(183): warning C4018: “<”: 有符号/无符号不匹配
+f:\github\terrain_render\terrainrender\terrainrender\data.h(252): warning C4018: “<”: 有符号/无符号不匹配
+f:\github\terrain_render\terrainrender\terrainrender\data.h(254): warning C4244: “=”: 从“double”转换到“unsigned int”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(142): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(244): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(245): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(249): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(250): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(252): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(253): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(260): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
   TerrainRender.vcxproj -> F:\GitHub\Terrain_Render\TerrainRender\Debug\TerrainRender.exe

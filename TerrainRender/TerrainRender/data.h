@@ -19,14 +19,20 @@ using namespace std;
 
 vector<string> str_split(const string str, const string pattern)
 {
-	string::size_type pos;
+	string::size_type pos = 0;
 	vector<string> vec;
 	string buf(str);
 	int size = str.size();
 	for (int i = 0; i < size; i = pos + pattern.size())//注意这一步，原写法是i++，在if条件最后一步为i = pos + pattern.size() - 1
 	{
-		pos = buf.find(pattern, i);
-		if (pos < size)
+		pos = buf.find(pattern, i); 
+		if (pos == -1)
+		{
+			string temp = buf.substr(i, size - i);
+			vec.push_back(temp);
+			return vec;
+		}
+		else if (pos < size && pos != i)
 		{
 			string temp = buf.substr(i, pos - i);
 			vec.push_back(temp);
@@ -80,6 +86,7 @@ public:
 		}
 	*/
 		verticesStream = (double*)malloc(vertices_rows * vertices_columns * sizeof(double));
+
 		indicesStream = (unsigned int*)malloc(indices_rows * indices_columns * sizeof(unsigned int));
 
 
@@ -173,7 +180,7 @@ public:
 		while (getline(fin, rowstring))
 		{
 			temp = str_split(rowstring, " ");
-			for (int i = 0; i < temp.size(); i++)
+			for (int i = 0; i < temp.size()-1; i++)
 			{
 				verticesStream[count++] = stod(temp[i]);
 			}
@@ -242,7 +249,7 @@ public:
 		while (getline(fin, rowstring))
 		{
 			temp = str_split(rowstring, " ");
-			for (int i = 0; i < temp.size(); i++)
+			for (int i = 0; i < temp.size()-1; i++)
 			{
 				indicesStream[count++] = stod(temp[i]);
 			}
