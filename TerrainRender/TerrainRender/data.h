@@ -1,5 +1,5 @@
-#ifndef DATA_H
-#define DATA_H
+#ifndef __DATA_H__
+#define __DATA_H__
 
 #include <iostream>
 #include <cstdlib>
@@ -9,6 +9,7 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>//for each
+#include "function.h"
 using namespace std;
 
 #define MAXDATA 10000000//Max data quantity
@@ -17,31 +18,13 @@ using namespace std;
 #define READCHAR 30
 #define READROW 200
 
-///string的split功能
-///返回string容器，若没有对应分隔符则返回原string
-vector<string> str_split(const string str, const string pattern)
-{
-	string::size_type pos = 0;
-	vector<string> vec;
-	string buf(str);
-	int size = str.size();
-	for (int i = 0; i < size; i = pos + pattern.size())//注意这一步，原写法是i++，在if条件最后一步为i = pos + pattern.size() - 1
-	{
-		pos = buf.find(pattern, i); 
-		if (pos == -1)
-		{
-			string temp = buf.substr(i, size - i);
-			vec.push_back(temp);
-			return vec;
-		}
-		else if (pos < size && pos != i)
-		{
-			string temp = buf.substr(i, pos - i);
-			vec.push_back(temp);
-		}
-	}
-	return vec;
-}
+
+void d_show1vd(double * data, int row, int col);
+void d_show2vd(double ** data, int row, int col);
+void d_show1vui(unsigned int * data, int row, int col);
+void d_show2vui(unsigned int ** data, int row, int col);
+
+
 
 class Terrain_Data
 {
@@ -66,12 +49,20 @@ public:
 	{
 		vertices_rows = vrows; vertices_columns = vcols;
 		indices_rows = irows; indices_columns = icols;
-		verticesStream = new double[vertices_rows * vertices_columns * sizeof(double)]();
-		if (verticesStream == NULL)
-			cout << "顶点数据内存分配失败！" << endl;
-		indicesStream = new unsigned int[indices_rows * indices_columns * sizeof(unsigned int)]();
-		if (indicesStream == NULL)
-			cout << "索引数据内存分配失败！" << endl;
+		try {
+			verticesStream = new double[vertices_rows * vertices_columns * sizeof(double)]();
+		}
+		catch (bad_alloc) {
+			cerr << "顶点数据内存分配失败！" << endl;
+			return;
+		}
+		try {
+			indicesStream = new unsigned int[indices_rows * indices_columns * sizeof(unsigned int)]();
+		}
+		catch (bad_alloc) {
+			cerr << "索引数据内存分配失败！" << endl;
+			return;
+		}
 
 		/*c动态开辟写法
 		verticesMap = (double**)malloc(vertices_rows * sizeof(double*));//注意sizeof的double*
@@ -286,63 +277,62 @@ public:
 		return indicesStream;
 	}
 
-	int Sizeof_Vertices()//TODO:var types
+	int Sizeof_Vertices()//TODO:var types default data dimension is 3
 	{
 		//all of pointer space are 4bytes
 		return vertices_rows * 3 * sizeof(double);
 	}
 
-	int Sizeof_Indices()//TODO:var types
+
+	int Sizeof_Indices()//TODO:var types default data dimension is 3
 	{
 		//all of pointer space are 4bytes
 		return indices_rows * 3 * sizeof(unsigned);
 	}
 
+	///dimension 数据格式（一维数据流或二维数组）
 	void Show_Vertices(int dimension)
 	{
-		if (verticesMap == NULL)
-		{
-			cout << "data empty!" << endl;
-			return;
-		}
-		/*
-		if (verticesMap[0][0] == DBL_MIN)
-		{
-			cout << "data empty!" << endl;
-			return;
-		}
-		*/
 		if (dimension == 1)
 		{
+			if (verticesStream == NULL)
+			{
+				cout << "data empty!" << endl;
+				return;
+			}
 			d_show1vd(verticesStream, vertices_rows, 3);
 		}
 		else if (dimension == 2)
 		{
+			if (verticesMap == NULL || verticesMap[0][0] == DBL_MIN)
+			{
+				cout << "data empty!" << endl;
+				return;
+			}
 			d_show2vd(verticesMap, vertices_rows, 3);
 		}
 		return;
 	}
 
+	///dimension 数据格式（一维数据流或二维数组）
 	void Show_Indices(int dimension)
 	{
-		if (indicesMap == NULL)
-		{
-			cout << "data empty!" << endl;
-			return;
-		}
-		/*
-		if (indicesMap[0][0] == INT_MIN)
-		{
-			cout << "data empty!" << endl;
-			return;
-		}
-		*/
 		if (dimension == 1)
 		{
+			if (indicesStream == NULL)
+			{
+				cout << "data empty!" << endl;
+				return;
+			}
 			d_show1vui(indicesStream, indices_rows, 3);
 		}
 		else if (dimension == 2)
 		{
+			if (indicesMap == NULL || indicesMap[0][0] == INT_MIN)
+			{
+				cout << "data empty!" << endl;
+				return;
+			}
 			d_show2vui(indicesMap, indices_rows, 3);
 		}
 		return;
@@ -411,6 +401,7 @@ void d_show2vui(unsigned int ** data, int row, int col)
 	cout << endl;
 }
 
+/*暂时用不到的一些函数
 bool d_pick_vertices(double** vertices, double * pick, int rows, int cols)
 {
 	int i = 0, j = 0, count = 0;
@@ -464,7 +455,6 @@ bool d_copy_indices(unsigned int* indices, unsigned int* copy, int count)
 		return true;
 	else return false;
 }
-
-
+*/
 
 #endif

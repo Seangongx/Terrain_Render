@@ -44,16 +44,14 @@ int main()
 	int irows = f_get_rows("Data\\indices.txt");
 	int icols = f_get_columns("Data\\indices.txt");
 
-	// load data
 	Terrain_Data data(vrows, vcols, irows, icols);
 	double* Vertices = data.Load_1d_Vertices("Data\\vertices.txt");
 	unsigned int* Indices = data.Load_1ui_Indices("Data\\indices.txt");
-
+	//data.Show_Indices(1);
+	//data.Show_Vertices(1);
 
 /*	//double** Vertices = data.Load_Vertices("Data\\vertices.txt");
 	//unsigned int** Indices = data.Load_Indices("Data\\indices.txt");
-	//d_show2vd(Vertices, vrows, vcols - 1);
-	//d_show2vui(Indices, irows, icols - 1);
 
 	//pick_vertices为顶点一维数组， pick_indices为索引一维数组
 	double *pick_vertices = new double[TESTVROWS * (MAXCOLUMNS - 1)];
@@ -63,12 +61,10 @@ int main()
 	{
 		cout << "data load error!" << endl;
 	}
-	//d_show1vd(pick_vertices, vrows, vcols - 1);
 	if (!d_pick_indices(Indices, pick_indices, irows, icols - 1))
 	{
 		cout << "data load error!" << endl;
 	}
-	//d_show1vui(pick_indices, irows, icols - 1);
 */
 
 	// glfw: initialize and configure
@@ -87,7 +83,7 @@ int main()
 		glfwTerminate();
 		return -1;
 	}
-
+	
 	//回调函数注册处
 	glfwMakeContextCurrent(window);//将我们窗口的上下文设置为当前线程的主上下文了。	
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);//窗口大小改变
