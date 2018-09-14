@@ -124,6 +124,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="data.h" />
     <ClInclude Include="file.h" />
+    <ClInclude Include="function.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
