@@ -12,6 +12,10 @@ using namespace std;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+
+#define FILE_VERTICES "Data\\new_vertices.txt"
+#define FILE_INDICES "Data\\new_indices.txt"
+
 #define TESTVROWS 16384
 #define TESTIROWS 32258
 
@@ -39,14 +43,14 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 int main()
 {
-	int vrows = f_get_rows("Data\\vertices.txt");
-	int vcols = f_get_columns("Data\\vertices.txt");
-	int irows = f_get_rows("Data\\indices.txt");
-	int icols = f_get_columns("Data\\indices.txt");
+	int vrows = f_get_rows(FILE_VERTICES);
+	int vcols = f_get_columns(FILE_VERTICES);
+	int irows = f_get_rows(FILE_INDICES);
+	int icols = f_get_columns(FILE_INDICES);
 
 	Terrain_Data data(vrows, vcols, irows, icols);
-	double* Vertices = data.Load_1d_Vertices("Data\\vertices.txt");
-	unsigned int* Indices = data.Load_1ui_Indices("Data\\indices.txt");
+	double* Vertices = data.Load_1d_Vertices(FILE_VERTICES);
+	unsigned int* Indices = data.Load_1ui_Indices(FILE_INDICES);
 	//data.Show_Indices(1);
 	//data.Show_Vertices(1);
 
@@ -113,8 +117,8 @@ int main()
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 	glBindVertexArray(VAO);
 
-	int sizeof_vertices = TESTVROWS * 3 * sizeof(double);
-	int sizeof_indices = TESTIROWS * 3 * sizeof(unsigned int);
+	//int sizeof_vertices = TESTVROWS * 3 * sizeof(double);
+	//int sizeof_indices = TESTIROWS * 3 * sizeof(unsigned int);
 	//‘≠∞Ê–¥»Î
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, data.Sizeof_Vertices(), Vertices, GL_STATIC_DRAW);
