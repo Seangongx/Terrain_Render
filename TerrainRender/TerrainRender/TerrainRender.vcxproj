@@ -125,11 +125,15 @@
     <ClInclude Include="data.h" />
     <ClInclude Include="file.h" />
     <ClInclude Include="function.h" />
+    <ClInclude Include="object.h" />
+    <ClInclude Include="quad_tree_node.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
+    <ClCompile Include="object.cpp" />
+    <ClCompile Include="quad_tree_node.cpp" />
     <ClCompile Include="terrain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

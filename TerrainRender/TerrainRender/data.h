@@ -196,7 +196,10 @@ public:
 		}
 		while (getline(fin, rowstring))
 		{
-			temp = str_split(rowstring, " ");
+			if (rowstring.find("\t") && rowstring.find(" ") == -1)//判断不同文件格式，有空格有制表符区分
+				temp = str_split(rowstring, "\t");
+			else
+				temp = str_split(rowstring, " ");
 			for (int i = 0; i < temp.size()-1; i++)
 			{
 				verticesStream[count++] = stod(temp[i]);
@@ -265,7 +268,10 @@ public:
 		}
 		while (getline(fin, rowstring))
 		{
-			temp = str_split(rowstring, " ");
+			if(rowstring.find("\t") && rowstring.find(" ") == -1)//判断不同文件格式，有空格有制表符区分
+				temp = str_split(rowstring, "\t");
+			else
+				temp = str_split(rowstring, " ");
 			for (int i = 0; i < temp.size()-1; i++)
 			{
 				indicesStream[count++] = stod(temp[i]);
