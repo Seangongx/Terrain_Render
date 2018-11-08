@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __FILE_H__
 #define __FILE_H__
 
@@ -6,16 +7,16 @@
 #include <string>
 #include <vector>
 #include "function.h"
-using namespace std;
 
-int f_get_rows(const string filename)
+//获取有格式文件的行数
+int f_get_rows(const std::string filename)
 {
 	int count = 0;
-	string temp;
-	fstream fin(filename, ios::in);
+	std::string temp;
+	std::fstream fin(filename, std::ios::in);
 	if (!fin)
 	{
-		cout << "The file is not exist!" << endl;
+		std::cout << "The file is not exist!" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -29,14 +30,15 @@ int f_get_rows(const string filename)
 	}
 }
 
-int f_get_columns(const string filename)
+//获取有格式文件的列数
+int f_get_columns(const std::string filename)
 {
-	string rowstring;
-	vector<string> temp;
-	ifstream fin(filename, ios::in);
+	std::string rowstring;
+	std::vector<std::string> temp;
+	std::ifstream fin(filename, std::ios::in);
 
 	if (!fin) {
-		cout << "The file is not exist!" << endl;
+		std::cout << "The file is not exist!" << std::endl;
 		return -1;
 	}
 	getline(fin, rowstring, '\n');

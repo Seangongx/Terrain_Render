@@ -79,9 +79,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;assimpd.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,12 +130,15 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="quad_tree_node.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="shaders.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="data.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="quad_tree_node.cpp" />
+    <ClCompile Include="shaders.cpp" />
     <ClCompile Include="terrain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

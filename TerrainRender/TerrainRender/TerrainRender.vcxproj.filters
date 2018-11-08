@@ -39,6 +39,9 @@
     <ClInclude Include="quad_tree_node.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="shaders.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
@@ -51,6 +54,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="quad_tree_node.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shaders.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="data.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

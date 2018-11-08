@@ -51,25 +51,6 @@ int main()
 	Terrain_Data data(vrows, vcols, irows, icols);
 	double* Vertices = data.Load_1d_Vertices(FILE_VERTICES);
 	unsigned int* Indices = data.Load_1ui_Indices(FILE_INDICES);
-	//data.Show_Indices(1);
-	//data.Show_Vertices(1);
-
-/*	//double** Vertices = data.Load_Vertices("Data\\vertices.txt");
-	//unsigned int** Indices = data.Load_Indices("Data\\indices.txt");
-
-	//pick_vertices为顶点一维数组， pick_indices为索引一维数组
-	double *pick_vertices = new double[TESTVROWS * (MAXCOLUMNS - 1)];
-	unsigned int *pick_indices = new unsigned int[TESTIROWS * (MAXCOLUMNS - 1)];
-
-	if (!d_pick_vertices(Vertices, pick_vertices, vrows, vcols - 1))
-	{
-		cout << "data load error!" << endl;
-	}
-	if (!d_pick_indices(Indices, pick_indices, irows, icols - 1))
-	{
-		cout << "data load error!" << endl;
-	}
-*/
 
 	// glfw: initialize and configure
 	// ------------------------------
@@ -117,8 +98,6 @@ int main()
 	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 	glBindVertexArray(VAO);
 
-	//int sizeof_vertices = TESTVROWS * 3 * sizeof(double);
-	//int sizeof_indices = TESTIROWS * 3 * sizeof(unsigned int);
 	//原版写入
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, data.Sizeof_Vertices(), Vertices, GL_STATIC_DRAW);
