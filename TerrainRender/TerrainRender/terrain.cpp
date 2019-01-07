@@ -3,18 +3,18 @@
 #include"data.h"
 #include"shader.h"
 #include"camera.h"
-#include"file.h"
-using namespace std;
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>//引入图形计算库
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+//using namespace std;
 
 #define FILE_VERTICES "Data\\new_vertices.txt"
 #define FILE_INDICES "Data\\new_indices.txt"
+#define SETTINGS
+
+#ifdef SETTINGS//程序配置项设置
 
 #define TESTVROWS 16384
 #define TESTIROWS 32258
@@ -35,6 +35,9 @@ float lastX = DEF_WINDOW_WIDTH / 2.0f;
 float lastY = DEF_WINDOW_HEIGHT / 2.0f;
 bool firstMouse = true;
 
+#endif
+
+
 //callback function definition
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -43,12 +46,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 int main()
 {
-	int vrows = f_get_rows(FILE_VERTICES);
-	int vcols = f_get_columns(FILE_VERTICES);
-	int irows = f_get_rows(FILE_INDICES);
-	int icols = f_get_columns(FILE_INDICES);
-
-	Terrain_Data data(vrows, vcols, irows, icols);
+	Terrain_Data data(FILE_VERTICES, FILE_INDICES);
 	double* Vertices = data.Load_1d_Vertices(FILE_VERTICES);
 	unsigned int* Indices = data.Load_1ui_Indices(FILE_INDICES);
 
@@ -142,7 +140,7 @@ int main()
 		ourShader.setMat4("model", model);
 
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		glDrawElements(GL_TRIANGLES, 3 * irows, GL_UNSIGNED_INT, 0);//画出的三角形个数就是索引个数，需要绘制的顶点个数就是三角形个数*3
+		glDrawElements(GL_TRIANGLES, 3 * data.Get_IndicesRows(), GL_UNSIGNED_INT, 0);//画出的三角形个数就是索引个数，需要绘制的顶点个数就是三角形个数*3
 
 		// glBindVertexArray(0); // no need to unbind it every time 
 

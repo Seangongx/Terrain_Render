@@ -42,7 +42,10 @@ int f_get_columns(const std::string filename)
 		return -1;
 	}
 	getline(fin, rowstring, '\n');
-	temp = str_split(rowstring, " ");
+	if (rowstring.find("\t") && rowstring.find(" ") == -1)
+		temp = str_split(rowstring, "\t");
+	else
+		temp = str_split(rowstring, " ");
 	fin.close();
 	return temp.size();
 }

@@ -127,8 +127,7 @@
     <ClInclude Include="data.h" />
     <ClInclude Include="file.h" />
     <ClInclude Include="function.h" />
-    <ClInclude Include="object.h" />
-    <ClInclude Include="quad_tree_node.h" />
+    <ClInclude Include="lod.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shaders.h" />
     <ClInclude Include="stb_image.h" />
@@ -136,8 +135,7 @@
   <ItemGroup>
     <ClCompile Include="data.cpp" />
     <ClCompile Include="glad.c" />
-    <ClCompile Include="object.cpp" />
-    <ClCompile Include="quad_tree_node.cpp" />
+    <ClCompile Include="lod.cpp" />
     <ClCompile Include="shaders.cpp" />
     <ClCompile Include="terrain.cpp" />
   </ItemGroup>

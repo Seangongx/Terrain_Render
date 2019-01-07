@@ -33,13 +33,10 @@
     <ClInclude Include="function.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="object.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="quad_tree_node.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="shaders.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="lod.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,16 +47,13 @@
     <ClCompile Include="terrain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="object.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="quad_tree_node.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="shaders.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="data.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="lod.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

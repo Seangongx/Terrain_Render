@@ -64,7 +64,40 @@ void d_show2vui(unsigned int ** data, int row, int col)
 	std::cout << std::endl;
 }
 
-//Terrain类函数
+//Terrain_Data类函数
+Terrain_Data::Terrain_Data(const std::string verticesfile, const std::string indicesfile)
+{
+	///二维数组形式存储
+	verticesMap = NULL;
+	indicesMap = NULL;
+	///一维数据流存储
+	verticesStream = NULL;
+	indicesStream = NULL;
+
+	maxRows = MAXROWS;
+	maxColumns = MAXCOLUMNS;
+
+	vertices_rows = f_get_rows(verticesfile);
+	vertices_columns = f_get_columns(verticesfile) - 1;
+	indices_rows = f_get_rows(indicesfile);
+	indices_columns = f_get_columns(indicesfile) - 1;
+
+	try {
+		verticesStream = new double[vertices_rows * vertices_columns * sizeof(double)]();
+	}
+	catch (std::bad_alloc) {
+		std::cerr << "顶点数据内存分配失败！" << std::endl;
+		return;
+	}
+	try {
+		indicesStream = new unsigned int[indices_rows * indices_columns * sizeof(unsigned int)]();
+	}
+	catch (std::bad_alloc) {
+		std::cerr << "索引数据内存分配失败！" << std::endl;
+		return;
+	}
+
+}
 Terrain_Data::Terrain_Data(int vrows, int vcols, int irows, int icols)
 {
 	///二维数组形式存储
@@ -124,6 +157,7 @@ Terrain_Data::~Terrain_Data()
 		Clear_Data();
 	}
 }
+//Terrain数据装载状态
 int Terrain_Data::Data_State()
 {
 	/*
@@ -145,6 +179,7 @@ int Terrain_Data::Data_State()
 		return 1;
 	}
 }
+//Terrain数据清理
 void Terrain_Data::Clear_Data()
 {
 	/*
@@ -166,6 +201,7 @@ void Terrain_Data::Clear_Data()
 	delete[] verticesStream; verticesStream = NULL;
 	delete[] indicesStream; indicesStream = NULL;
 }
+//Terrain数据读文件载入
 double** Terrain_Data::Load_Vertices(const std::string filename)
 {
 	char num[READCHAR];//use atol
@@ -297,7 +333,7 @@ unsigned int * Terrain_Data::Load_1ui_Indices(const std::string filename)
 			temp = str_split(rowstring, " ");
 		for (int i = 0; i < temp.size() - 1; i++)
 		{
-			indicesStream[count++] = stod(temp[i]);
+			indicesStream[count++] = stoi(temp[i]);
 		}
 		temp.clear();
 	}
@@ -305,6 +341,7 @@ unsigned int * Terrain_Data::Load_1ui_Indices(const std::string filename)
 	fin.close();
 	return indicesStream;
 }
+//Terrain属性值获得
 int Terrain_Data::Sizeof_Vertices()//TODO:var types default data dimension is 3
 {
 	//all of pointer space are 4bytes
@@ -315,7 +352,15 @@ int Terrain_Data::Sizeof_Indices()//TODO:var types default data dimension is 3
 	//all of pointer space are 4bytes
 	return indices_rows * 3 * sizeof(unsigned);
 }
-///dimension 数据格式（一维数据流或二维数组）
+int Terrain_Data::Get_VerticesRows()
+{
+	return this->vertices_rows;
+}
+int Terrain_Data::Get_IndicesRows()
+{
+	return this->indices_rows;
+}
+//Terrain数据控制台显示（一维数据流或二维数组）
 void Terrain_Data::Show_Vertices(int dimension)
 {
 	if (dimension == 1)
@@ -338,7 +383,6 @@ void Terrain_Data::Show_Vertices(int dimension)
 	}
 	return;
 }
-///dimension 数据格式（一维数据流或二维数组）
 void Terrain_Data::Show_Indices(int dimension)
 {
 	if (dimension == 1)
@@ -361,6 +405,46 @@ void Terrain_Data::Show_Indices(int dimension)
 	}
 	return;
 }
+
+//标志位二维数组操作
+CBit::CBit()
+{
+	m_pBits = NULL;
+	m_Row = m_Col = 0;
+}
+CBit::~CBit()
+{
+	if (m_pBits)
+	{
+		delete[] m_pBits;
+		m_pBits = NULL;
+	}
+}
+bool CBit::Create(GLuint R, GLuint C)
+{
+	m_Row = R, m_Col = C;
+
+	if (m_pBits) delete[] m_pBits;
+
+	GLuint size = R * C / 32;
+
+	if (R*C % 32) size += 1;
+
+	m_pBits = new GLuint[size];
+
+	memset(m_pBits, 0, size * 4);
+
+	return m_pBits != NULL;
+}
+void CBit::Reset()
+{
+	GLuint size = m_Row * m_Col / 32;
+
+	if (m_Row*m_Col % 32) size += 1;
+
+	memset(m_pBits, 0, size * 4);
+}
+
 
 
 /*暂时用不到的一些函数

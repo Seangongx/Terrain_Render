@@ -1,8 +1,19 @@
 ﻿  data.cpp
-f:\github\terrain_render\terrainrender\terrainrender\data.cpp(228): warning C4018: “<”: 有符号/无符号不匹配
-f:\github\terrain_render\terrainrender\terrainrender\data.cpp(298): warning C4018: “<”: 有符号/无符号不匹配
-f:\github\terrain_render\terrainrender\terrainrender\data.cpp(300): warning C4244: “=”: 从“double”转换到“unsigned int”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\data.cpp(264): warning C4018: “<”: 有符号/无符号不匹配
+f:\github\terrain_render\terrainrender\terrainrender\data.cpp(334): warning C4018: “<”: 有符号/无符号不匹配
+  terrain.cpp
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(115): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(216): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(217): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(221): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(222): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(224): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(225): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(232): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  正在生成代码...
 LINK : warning LNK4075: 忽略“/INCREMENTAL”(由于“/FORCE”规范)
+terrain.obj : warning LNK4006: "int __cdecl f_get_columns(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?f_get_columns@@YAHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 已在 data.obj 中定义；已忽略第二个定义
+terrain.obj : warning LNK4006: "int __cdecl f_get_rows(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?f_get_rows@@YAHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 已在 data.obj 中定义；已忽略第二个定义
 terrain.obj : warning LNK4006: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > __cdecl str_split(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?str_split@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@0@Z) 已在 data.obj 中定义；已忽略第二个定义
 F:\GitHub\Terrain_Render\TerrainRender\Debug\TerrainRender.exe : warning LNK4088: 因 /FORCE 选项生成了映像；映像可能不能运行
   TerrainRender.vcxproj -> F:\GitHub\Terrain_Render\TerrainRender\Debug\TerrainRender.exe
