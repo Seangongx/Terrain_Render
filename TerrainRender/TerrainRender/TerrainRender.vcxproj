@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="data.cpp" />
+    <ClCompile Include="file.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="lod.cpp" />
     <ClCompile Include="shaders.cpp" />

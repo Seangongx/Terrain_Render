@@ -1,6 +1,155 @@
 #include "data.h"
 #include <vector>
 
+//标志位二维数组操作
+CBit::CBit()
+{
+	m_pBits = NULL;
+	m_Row = m_Col = 0;
+}
+CBit::~CBit()
+{
+	if (m_pBits)
+	{
+		delete[] m_pBits;
+		m_pBits = NULL;
+	}
+}
+bool CBit::Create(GLuint R, GLuint C)
+{
+	m_Row = R, m_Col = C;
+
+	if (m_pBits) delete[] m_pBits;
+
+	GLuint size = R * C / 32;
+
+	if (R*C % 32) size += 1;
+
+	m_pBits = new GLuint[size];
+
+	memset(m_pBits, 0, size * 4);
+
+	return m_pBits != NULL;
+}
+void CBit::Reset()
+{
+	GLuint size = m_Row * m_Col / 32;
+
+	if (m_Row*m_Col % 32) size += 1;
+
+	memset(m_pBits, 0, size * 4);
+}
+
+//CTerrain类相关操作
+CTerrain::CTerrain()
+{
+	m_pVerticesStream = NULL;
+	m_pIndicesStream = NULL;
+	m_pVB = NULL;
+	m_pEB = NULL;
+	m_size = 0;
+}
+CTerrain::~CTerrain()
+{
+	glDeleteVertexArrays(1, &m_VAO);
+	glDeleteBuffers(1, &m_VBO);
+	glDeleteBuffers(1, &m_EBO);
+}
+CTerrain::CTerrain(const std::string verticesfile)
+{
+	m_vertices.LoadFile(verticesfile, CTerrainFile::VERTICES);
+	m_pVerticesStream = (GLdouble*)m_vertices.GetStream();
+	m_pIndicesStream = NULL;
+	m_pVB = NULL;
+	m_pEB = NULL;
+	m_size = sqrt(m_vertices.GetRow());
+}
+CTerrain::CTerrain(const std::string verticesfile, const std::string indicesfile)
+{
+	m_vertices.LoadFile(verticesfile, CTerrainFile::VERTICES);
+	m_indices.LoadFile(indicesfile, CTerrainFile::INDICES);
+	m_pVerticesStream = (GLdouble*)m_vertices.GetStream();
+	m_pIndicesStream = (GLuint*)m_indices.GetStream();
+	m_pVB = NULL;
+	m_pEB = NULL;
+	m_size = sqrt(m_vertices.GetRow());
+}
+bool CTerrain::CreateBuffer()
+{
+	//创建顶点缓存
+	glGenVertexArrays(1, &m_VAO);
+	glGenBuffers(1, &m_VBO);
+	glGenBuffers(1, &m_EBO);
+
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.SizeofData(), m_pVerticesStream, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.SizeofData(), m_pIndicesStream, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, m_vertices.GetCol(), GL_DOUBLE, GL_TRUE, m_vertices.GetCol() * sizeof(GLdouble), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0);
+
+	return true;
+}
+void CTerrain::Render()
+{
+	glBindVertexArray(m_VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+	glDrawElements(GL_TRIANGLES, 3 * m_indices.GetRow(), GL_UNSIGNED_INT, 0);//画出的三角形个数就是索引个数，需要绘制的顶点个数就是三角形个数*3
+	//glBindVertexArray(0); // no need to unbind it every time 
+}
+bool CTerrain::Create(GLuint size)
+{
+	unsigned int input = size;
+	register int result;
+	_asm bsr eax, input
+	_asm mov result, eax
+	unsigned int test = ~(1 << result);
+
+	assert(((test & input) == 0 || (test & input) == 1) && "地图大小设置错误，请确保地图的大小必须是2的幂或者+1");
+	//assert(size >= (1 << e_SectionLevel) && "地图大小设置错误，请确保地图的大小要大于等于最小单位为地形块的大小");
+
+	m_size = size;//可能地图并没有文件读取的那么大
+	if ((test & input) == 0)
+	{
+		//TODO:地形数据补全成2的幂+1
+		++m_size;
+	}
+
+	CreateBuffer();
+
+	bool re = true;//其他属性加载失败则返回false
+
+	return true;
+}
+void CTerrain::SetLodType(CLod* lod)
+{
+	m_lod = lod;
+}
+void CTerrain::Delete()
+{
+	glDeleteVertexArrays(1, &m_VAO);
+	glDeleteBuffers(1, &m_VBO);
+	glDeleteBuffers(1, &m_EBO);
+}
+GLuint CTerrain::GetSize()
+{
+	return m_size;
+}
+GLdouble CTerrain::GetHeight_P2C(GLint _x, GLint _y)
+{
+	return m_pVerticesStream[((_y * m_size) + _x) * m_vertices.GetCol() + m_vertices.GetCol() - 1];
+}
+glm::vec3 CTerrain::GetPos(GLint _x, GLint _y)
+{
+	return glm::vec3(_x, _y, GetHeight_P2C(_x, _y));
+}
+
+
+
+
+#ifdef OLD
 #define MAXROWS 32768//Initial value of rows (2pow(7+7+1)) 
 #define MAXCOLUMNS 4//Initial value of coloumns
 #define READCHAR 30
@@ -405,47 +554,7 @@ void Terrain_Data::Show_Indices(int dimension)
 	}
 	return;
 }
-
-//标志位二维数组操作
-CBit::CBit()
-{
-	m_pBits = NULL;
-	m_Row = m_Col = 0;
-}
-CBit::~CBit()
-{
-	if (m_pBits)
-	{
-		delete[] m_pBits;
-		m_pBits = NULL;
-	}
-}
-bool CBit::Create(GLuint R, GLuint C)
-{
-	m_Row = R, m_Col = C;
-
-	if (m_pBits) delete[] m_pBits;
-
-	GLuint size = R * C / 32;
-
-	if (R*C % 32) size += 1;
-
-	m_pBits = new GLuint[size];
-
-	memset(m_pBits, 0, size * 4);
-
-	return m_pBits != NULL;
-}
-void CBit::Reset()
-{
-	GLuint size = m_Row * m_Col / 32;
-
-	if (m_Row*m_Col % 32) size += 1;
-
-	memset(m_pBits, 0, size * 4);
-}
-
-
+#endif
 
 /*暂时用不到的一些函数
 bool d_pick_vertices(double** vertices, double * pick, int rows, int cols)
@@ -502,4 +611,3 @@ bool d_copy_indices(unsigned int* indices, unsigned int* copy, int count)
 	else return false;
 }
 */
-

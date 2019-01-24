@@ -25,9 +25,30 @@ const float SENSITIVTY = 0.1f;
 const float ZOOM = 45.0f;
 
 // 抽象摄像机类
-class Camera
+class CCamera
 {
 public:
+	//-------------------------------------------代码修改的分界线---------------------------------------------//
+	//Camera Matrix
+	glm::mat4 projection;
+	glm::mat4 view;
+	glm::mat4 model;
+	void SetProj(float _w, float _h, float _n, float _f)
+	{
+		projection = glm::perspective(glm::radians(Zoom), _w / _h, _n, _f); //glm::radians(fov)
+	}
+	void SetView()
+	{
+		view = GetViewMatrix();
+	}
+	void SetModel_Edit()
+	{
+		model = glm::mat4();//每次得还原，不然会越变越小
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));//如果注释掉会有90度的偏转
+		model = glm::scale(model, glm::vec3(0.05f));
+	}
+	//-------------------------------------------代码修改的分界线---------------------------------------------//
+
 	// Camera Attributes
 	glm::vec3 Position;
 	glm::vec3 Front;//Direaction vector
@@ -45,7 +66,7 @@ public:
 	float Zoom;
 
 	// Constructor with vectors
-	Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH)
+	CCamera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH)
 		: Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVTY), Zoom(ZOOM)
 	{
 		Position = position;
@@ -55,7 +76,7 @@ public:
 		updateCameraVectors();
 	}
 	// Constructor with scalar values
-	Camera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
+	CCamera(float posX, float posY, float posZ, float upX, float upY, float upZ, float yaw, float pitch)
 		: Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVTY), Zoom(ZOOM)
 	{
 		Position = glm::vec3(posX, posY, posZ);
@@ -141,4 +162,6 @@ private:
 		Up = glm::normalize(glm::cross(Right, Front));
 	}
 };
+
+
 #endif

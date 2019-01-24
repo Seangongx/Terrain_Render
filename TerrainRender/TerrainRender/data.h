@@ -2,7 +2,7 @@
 #ifndef __DATA_H__
 #define __DATA_H__
 
-#include <glad/glad.h>
+//#include <glad/glad.h> file.h内已包含
 #include <assert.h>
 #include <iostream>
 #include <cstdlib>
@@ -14,9 +14,100 @@
 #include "file.h"
 #include "function.h"
 
+#include <glm/glm.hpp>//引入图形计算库
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #define safe_delete(p)			{ if(p) { delete (p); (p)=0; } }
 #define safe_delete_array(p)	{ if(p) { delete[] (p); (p)=0; } }
 #define safe_release(p)			{ if(p) { (p)->Release(); (p)=0; } }
+
+
+//标志位二维数组类
+class CBit
+{
+private:
+	GLuint*		m_pBits;//存储位标志的指针
+	GLuint		m_Row;//行数
+	GLuint		m_Col;//列数
+
+public:
+	CBit();
+	~CBit();
+
+	//创建标志数组
+	bool Create(GLuint Row, GLuint Col);
+	//设置标志位		
+	inline void Set(GLuint Row, GLuint Col, bool bFlog = true);	
+	//标志清零
+	void Reset();
+	//查询该标志
+	inline bool IsTrue(GLuint Row, GLuint Col);
+
+};
+//成员函数实现...
+inline void CBit::Set(GLuint R, GLuint C, bool bFlog)
+{
+	assert(m_pBits);
+
+	bFlog ? m_pBits[(R*m_Col + C) / 32] |= (1 << (R*m_Col + C) % 32)
+		: m_pBits[(R*m_Col + C) / 32] &= ~(1 << (R*m_Col + C) % 32);
+
+}
+inline bool CBit::IsTrue(GLuint R, GLuint C)
+{
+	assert(m_pBits);
+
+	return  (m_pBits[(R*m_Col + C) / 32] & (1 << (R*m_Col + C) % 32)) != 0;
+}
+
+
+class CLod;
+//CLOD地形数据类
+class CTerrain
+{
+private:
+	//TODO:地形分块
+	struct SVertex
+	{
+		GLfloat		height;//高度
+		//glm::vec3	Normal;//法向量
+	};
+
+	friend class CLOD_Quadtree;
+
+	CTerrainFile		m_vertices;			//顶点文件操作
+	CTerrainFile		m_indices;			//索引文件操作
+	CLod*				m_lod;				//层次细节类型
+	GLdouble*			m_pVerticesStream;	//顶点数据流
+	GLuint*				m_pIndicesStream;	//索引数据流
+	GLdouble*			m_pVB;				//顶点缓存
+	GLuint*				m_pEB;				//索引缓存
+	GLuint				m_size;				//地图大小（宽度=高度）
+	GLuint				m_VAO, m_VBO, m_EBO;
+
+	bool CreateBuffer();								//创建共享顶点和索引缓存
+
+public:
+	CTerrain();
+	CTerrain(const std::string verticesfile);
+	CTerrain(const std::string verticesfile, const std::string indicesfile);
+	~CTerrain();
+
+	bool Create(GLuint size);							//创建地图
+	void Render();										//渲染地形
+	void SetLodType(CLod* lod);							//设置LOD类型（Quad\Roam...)
+	void Delete();										//删除缓存对象
+	GLuint GetSize();									//返回地图大小
+	GLdouble GetHeight_P2C(GLint _x, GLint _y);			//返回某一坐标的高度值（按列优先）
+	glm::vec3 GetPos(GLint _x, GLint _y);				//返回某一坐标的真实位置
+
+};
+
+
+#endif
+
+#ifdef OLD
 
 //公用函数
 void d_show1vd(double * data, int row, int col);
@@ -69,45 +160,5 @@ public:
 
 };
 
-//标志位二维数组类
-class CBit
-{
-private:
-	GLuint*		m_pBits;//存储位标志的指针
-	GLuint		m_Row;//行数
-	GLuint		m_Col;//列数
-
-public:
-	CBit();
-	~CBit();
-
-	//创建标志数组
-	bool Create(GLuint Row, GLuint Col);
-	//设置标志位		
-	inline void Set(GLuint Row, GLuint Col, bool bFlog = true);	
-	//标志清零
-	void Reset();
-	//查询该标志
-	inline bool IsTrue(GLuint Row, GLuint Col);
-
-};
-//成员函数实现...
-inline void CBit::Set(GLuint R, GLuint C, bool bFlog)
-{
-	assert(m_pBits);
-
-	bFlog ? m_pBits[(R*m_Col + C) / 32] |= (1 << (R*m_Col + C) % 32)
-		: m_pBits[(R*m_Col + C) / 32] &= ~(1 << (R*m_Col + C) % 32);
-
-}
-inline bool CBit::IsTrue(GLuint R, GLuint C)
-{
-	assert(m_pBits);
-
-	return  (m_pBits[(R*m_Col + C) / 32] & (1 << (R*m_Col + C) % 32)) != 0;
-}
-
-
-
-
 #endif
+

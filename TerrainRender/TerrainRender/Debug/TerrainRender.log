@@ -1,19 +1,66 @@
-﻿  data.cpp
-f:\github\terrain_render\terrainrender\terrainrender\data.cpp(264): warning C4018: “<”: 有符号/无符号不匹配
-f:\github\terrain_render\terrainrender\terrainrender\data.cpp(334): warning C4018: “<”: 有符号/无符号不匹配
+﻿  lod.cpp
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(50): error C2039: “GetPos”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(51): error C2039: “GetPos”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(81): error C2039: “GetPos”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(82): error C2039: “GetPos”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(112): error C2039: “GetHeight”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(113): error C2039: “GetHeight”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(114): error C2039: “GetHeight”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(115): error C2039: “GetHeight”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(118): error C2039: “GetHeight”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(121): error C2039: “GetHeight”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(124): error C2039: “GetHeight”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(127): error C2039: “GetHeight”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(130): error C2039: “GetHeight”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(133): error C2039: “GetHeight”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(175): warning C4244: “初始化”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(176): warning C4244: “初始化”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(177): warning C4244: “初始化”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(178): warning C4244: “初始化”: 从“GLdouble”转换到“GLfloat”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(181): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(184): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(187): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(190): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(193): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(196): warning C4244: “=”: 从“double”转换到“GLfloat”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(348): error C2065: “D3DXVECTOR3”: 未声明的标识符
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(348): error C2146: 语法错误: 缺少“;”(在标识符“vecL”的前面)
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(348): error C2065: “vecL”: 未声明的标识符
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(348): error C2039: “GetPos”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(348): error C2039: “GetPos”: 不是“CCamera”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\camera.h(28): note: 参见“CCamera”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(350): error C2065: “vecL”: 未声明的标识符
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(356): error C2039: “m_Size”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(360): error C2039: “e_SectionLevel”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(360): error C2065: “e_SectionLevel”: 未声明的标识符
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(365): error C2039: “m_Size”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
+f:\github\terrain_render\terrainrender\terrainrender\lod.cpp(389): error C2039: “m_Size”: 不是“CTerrain”的成员
+  f:\github\terrain_render\terrainrender\terrainrender\data.h(63): note: 参见“CTerrain”的声明
   terrain.cpp
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(115): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(216): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(217): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(221): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(222): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(224): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(225): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
-f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(232): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(96): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(187): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(188): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(192): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(193): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(195): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(196): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+f:\github\terrain_render\terrainrender\terrainrender\terrain.cpp(203): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
   正在生成代码...
-LINK : warning LNK4075: 忽略“/INCREMENTAL”(由于“/FORCE”规范)
-terrain.obj : warning LNK4006: "int __cdecl f_get_columns(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?f_get_columns@@YAHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 已在 data.obj 中定义；已忽略第二个定义
-terrain.obj : warning LNK4006: "int __cdecl f_get_rows(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?f_get_rows@@YAHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z) 已在 data.obj 中定义；已忽略第二个定义
-terrain.obj : warning LNK4006: "class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > __cdecl str_split(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?str_split@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@0@Z) 已在 data.obj 中定义；已忽略第二个定义
-F:\GitHub\Terrain_Render\TerrainRender\Debug\TerrainRender.exe : warning LNK4088: 因 /FORCE 选项生成了映像；映像可能不能运行
-  TerrainRender.vcxproj -> F:\GitHub\Terrain_Render\TerrainRender\Debug\TerrainRender.exe
