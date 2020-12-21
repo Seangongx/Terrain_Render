@@ -82,7 +82,7 @@ private:
 	GLdouble*			m_pVerticesStream;	//顶点数据流
 	GLuint*				m_pIndicesStream;	//索引数据流
 	GLdouble*			m_pVB;				//顶点缓存
-	GLuint*				m_pEB;				//索引缓存
+//	GLuint*				m_pEB;				//索引缓存
 	GLuint				m_size;				//地图大小（宽度=高度）
 	GLuint				m_VAO, m_VBO, m_EBO;
 
@@ -99,10 +99,29 @@ public:
 	void SetLodType(CLod* lod);							//设置LOD类型（Quad\Roam...)
 	void Delete();										//删除缓存对象
 	GLuint GetSize();									//返回地图大小
+	GLdouble GetHeight(GLint _x, GLint _y);				//返回某一坐标的高度值（按行优先）
 	GLdouble GetHeight_P2C(GLint _x, GLint _y);			//返回某一坐标的高度值（按列优先）
 	glm::vec3 GetPos(GLint _x, GLint _y);				//返回某一坐标的真实位置
-
+	GLuint* GetVAO();									//返回顶点数组对象
+	GLuint* GetVBO();									//返回顶点缓冲对象
+	GLint	GetVBOSize();								//返回顶点数组大小
+	bool GenerateObject();								//产生顶点对象
 };
+
+
+inline GLuint* CTerrain::GetVAO()
+{
+	return &m_VAO;
+}
+inline GLuint* CTerrain::GetVBO()
+{
+	return &m_VBO;
+}
+inline GLint CTerrain::GetVBOSize()
+{
+	return m_vertices.SizeofData();
+}
+
 
 
 #endif

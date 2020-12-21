@@ -7,7 +7,7 @@ CLod_Quadtree::CLod_Quadtree()
 	m_data			 = NULL;
 	m_pVariant		 = NULL;
 	m_Cam			 = NULL;
-	//m_pIB			 = NULL;
+	m_pIB			 = NULL;
 	m_factor		 = 0.001f;
 	m_cellSize		 = 0;
 	m_BuildTrianlges = 0;
@@ -20,43 +20,11 @@ CLod_Quadtree::~CLod_Quadtree()
 	m_cur_Level		 = 0;
 	m_data			 = NULL;
 	m_Cam			 = NULL;
-	safe_delete_array(m_pVariant);
-	//safe_release(m_pIB);
+	safe_delete_array(m_pVariant); m_pVariant = NULL;
+	safe_delete_array(m_pIB); m_pIB = NULL;
 }
 
-
-//void CLod_Quadtree::Init(CTerrain * T, CCamera* C)
-//{
-//	m_data = T;
-//	m_Cam = C;
-//	m_Bit.Create(T->GetSize(), T->GetSize());
-//
-//	safe_delete_array(m_pVariant);
-//
-//	GLuint input = T->GetSize();
-//	register GLint All_Level;//注意此处有没有问题
-//	_asm bsr eax, input
-//	_asm mov All_Level, eax
-//
-//	m_nLevel = All_Level;
-//	int size = 1 << (All_Level - 1);
-//	m_pVariant = new GLfloat[T->GetSize() * T->GetSize()];
-//
-//	//m_RenderTable.reserve(T->m_SectionCountSq * T->m_SectionCountSq);
-//
-//	InitVariant(All_Level, size, size);
-//
-//	//注意getpos函数把数据x作为x横坐标,z作为y的纵坐标
-//	GLfloat cellX = m_data->GetPos(1, 0).x - m_data->GetPos(0, 0).x;
-//	GLfloat cellY = m_data->GetPos(0, 1).z - m_data->GetPos(0, 0).z;
-//	cellX > cellY ? m_cellSize = cellX : m_cellSize = cellY;
-//
-//	//TODO:
-//	//数据m_data创建索引缓存数组
-//
-//}
-
-void CLod_Quadtree::Init_P2C(CTerrain * T, CCamera* C)
+void CLod_Quadtree::Init(CTerrain * T, CCamera* C)
 {
 	m_data = T;
 	m_Cam = C;
@@ -81,7 +49,36 @@ void CLod_Quadtree::Init_P2C(CTerrain * T, CCamera* C)
 
 	//TODO:
 	//数据m_data创建索引缓存数组
-	
+	CreatePIB(IB_SIZE);
+
+}
+
+void CLod_Quadtree::Init_P2C(CTerrain * T, CCamera* C)
+{
+	m_data = T;
+	m_Cam = C;
+	m_Bit.Create(T->GetSize(), T->GetSize());
+
+	safe_delete_array(m_pVariant);
+
+	GLuint input = T->GetSize();
+	register GLint All_Level;//注意此处有没有问题
+	_asm bsr eax, input
+	_asm mov All_Level, eax
+
+	m_nLevel = All_Level;
+	int size = 1 << (All_Level - 1);
+	m_pVariant = new GLfloat[T->GetSize() * T->GetSize()];
+
+	InitVariant_P2C(All_Level, size, size);
+
+	GLfloat cellX = m_data->GetPos(1, 0).x - m_data->GetPos(0, 0).x;
+	GLfloat cellY = m_data->GetPos(0, 1).y - m_data->GetPos(0, 0).y;
+	cellX > cellY ? m_cellSize = cellX : m_cellSize = cellY;
+
+	//TODO:
+	//数据m_data创建索引缓存数组
+	CreatePIB(IB_SIZE);
 
 }
 
@@ -94,7 +91,7 @@ GLfloat CLod_Quadtree::InitVariant(GLint level, GLint x, GLint y)
 	GLfloat Var10[10] = { 0 };
 	GLint iter = 0;
 
-	GLint index = x * m_data->GetSize() + y;//计算在缓存中的位置
+	GLint index = y * m_data->GetSize() + x;//计算在缓存中的位置
 
 	if (level > 1)
 	{
@@ -132,7 +129,7 @@ GLfloat CLod_Quadtree::InitVariant(GLint level, GLint x, GLint y)
 
 	if (level > 1)
 		assert(10 == iter);
-	else 
+	else
 		assert(6 == iter);
 
 	GLfloat max = Var10[0];
@@ -157,7 +154,7 @@ GLfloat CLod_Quadtree::InitVariant_P2C(GLint level, GLint x, GLint y)
 	GLfloat Var10[10] = { 0 };
 	GLint iter = 0;
 
-	GLint index = y * m_data->GetSize() + x;//计算在缓存中的位置
+	GLint index = x * m_data->GetSize() + y;//计算在缓存中的位置
 
 	if (level > 1)
 	{
@@ -211,11 +208,8 @@ GLfloat CLod_Quadtree::InitVariant_P2C(GLint level, GLint x, GLint y)
 	return max;
 }
 
-
 void CLod_Quadtree::Build()
 {
-	//m_data->m_D3D->SetIndices(m_pIB);
-
 	//通过2个队列来交替当前级别的节点
 	static std::vector<NODE> next_Nodes((1 << (m_nLevel - 1)));
 	static std::vector<NODE> cur_Nodes((1 << (m_nLevel - 1)));
@@ -278,24 +272,26 @@ void CLod_Quadtree::Build()
 
 void CLod_Quadtree::AttachNode(const NODE & node)
 {
-	//暂定为6
+	//表示分辨率最少为m_nLevel - 6层， 暂定为6
 	if (m_cur_Level > 6) return;
 
 	GLint curLevelCell = 1 << (m_cur_Level - 1);
 	assert(m_cur_Level - 1 >= 0);
 
-	//129应改为类属性值或者参数
-	GLint fullLevelpoint = 129;//point比cell多1，也就是一排边和点的个数比格子多1
+	GLint fullLevelpoint = m_data->GetSize();//point比cell多1，也就是一排边和点的个数比格子多1
 
 	//逐步插入顶点绘制索引，扇形绘制的数组
 	GLuint cellX = node.x;
 	GLuint cellY = node.y;
 
-	static GLushort* pos = 0;
+	static GLuint ibOffset = 0;
+	static GLuint* pos = 0;
+	if (ibOffset + IB_BATCH_SIZE >= IB_SIZE) ibOffset = 0;
+	AttachPIB(&pos, ibOffset);
 
 	int i = 0;
 
-	//数据坐标为左上角为锚点，X从左到右增加，Y从上到下增加
+	//数据坐标为左上角为锚点，X从左到右增加，Y从上到下增加，列优先
 	pos[i++] = cellY * fullLevelpoint + cellX;//中点
 	pos[i++] = (cellY - curLevelCell) * fullLevelpoint + cellX - curLevelCell;//左上
 	if (m_AdjctAct[AD_UP])
@@ -319,9 +315,18 @@ void CLod_Quadtree::AttachNode(const NODE & node)
 	}
 	pos[i++] = (cellY - curLevelCell) * fullLevelpoint + cellX - curLevelCell;//左上
 
+
+	UnlockPIB(&pos, ibOffset);
+
 	assert(i <= 10);
 
 	//Draw
+	Render(ibOffset, i - 2);
+
+	m_BuildTrianlges += (i - 2);
+	ibOffset += IB_BATCH_SIZE;
+
+
 }
 
 bool CLod_Quadtree::NodeIsVisible(const NODE & node)
@@ -337,38 +342,40 @@ bool CLod_Quadtree::NodeIsVisible(const NODE & node)
 
 bool CLod_Quadtree::NodeCanDivid(const NODE & node)
 {
+	if (node.x == 64 && node.y == 64)
+		return true;
 
 	assert(node.x >= 0 && node.x < (int)m_data->GetSize());
 	assert(node.y >= 0 && node.y < (int)m_data->GetSize());
 
 	memset(m_AdjctAct, 1, sizeof(m_AdjctAct));
 
-	D3DXVECTOR3 vecL = m_data->GetPos(node.x, node.y) - m_Cam->GetPos();
+	glm::vec3 vecL = m_data->GetPos(node.x, node.y) - m_Cam->GetPos();
 
 	float l = vecL.x*vecL.x + vecL.y*vecL.y + vecL.z*vecL.z;
 
-	unsigned int Size = 1 << m_cur_Level;
+	GLuint Size = 1 << m_cur_Level - 1;
 
 	float realSize = Size * m_cellSize;
 
-	float Var = m_pVariant[node.x + m_data->m_Size*node.y];
+	float Var = m_pVariant[m_data->GetSize() * node.y + node.x];
 
 	bool Divid = m_cur_Level > 1;
 
-	if (m_cur_Level <= CTerrain::e_SectionLevel &&
-		realSize*Var / l < m_factor)	 Divid = false;
+	//if (m_cur_Level <= CTerrain::e_SectionLevel &&
+	//	realSize*Var / l < m_factor)	 Divid = false;
+	if (realSize*Var / l < m_factor)	 Divid = false;
 
-
-	int Trans = node.y + Size;
-	if (Trans < (int)m_data->m_Size && !m_Bit.IsTrue(node.x, Trans))
+	int Trans = node.y - Size;
+	if (Trans >= 0 && !m_Bit.IsTrue(node.x, Trans))
 	{
 		m_AdjctAct[AD_UP] = 0;
 
 		Divid = false;
 	}
 
-	Trans = node.y - Size;
-	if (Trans >= 0 && !m_Bit.IsTrue(node.x, Trans))
+	Trans = node.y + Size;
+	if (Trans < (int)m_data->GetSize() && !m_Bit.IsTrue(node.x, Trans))
 	{
 		m_AdjctAct[AD_DOWN] = 0;
 
@@ -384,7 +391,7 @@ bool CLod_Quadtree::NodeCanDivid(const NODE & node)
 	}
 
 	Trans = node.x + Size;
-	if (Trans < (int)m_data->m_Size && !m_Bit.IsTrue(Trans, node.y))
+	if (Trans < (int)m_data->GetSize() && !m_Bit.IsTrue(Trans, node.y))
 	{
 		m_AdjctAct[AD_RIGHT] = 0;
 
@@ -418,3 +425,38 @@ void CLod_Quadtree::DividNode(const NODE & node)
 	m_Bit.Set(node.x - Size, node.y + Size, true);
 }
 
+void CLod_Quadtree::CreatePIB(GLint size)
+{
+	m_pIB = new GLuint[size]();
+}
+void CLod_Quadtree::AttachPIB(GLuint** point, GLint offset)
+{
+	*point = m_pIB + offset;
+	//assert(point > m_pIB + IB_SIZE);//
+}
+bool CLod_Quadtree::UnlockPIB(GLuint** point, GLint offset)
+{
+	if ((*point + IB_BATCH_SIZE) == (m_pIB + offset + IB_BATCH_SIZE))
+		return true;
+	else
+		return false;
+}
+void CLod_Quadtree::DeletePIB(const GLuint* point)
+{
+	delete[] m_pIB;
+	m_pIB = NULL;
+}
+
+
+void CLod_Quadtree::Render(GLuint offset, GLint triangles)
+{
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, triangles * sizeof(GLuint), m_pIB + offset, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_DOUBLE, GL_TRUE, 3 * sizeof(GLdouble), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(*(m_data->GetVAO()));
+	glDrawElements(GL_TRIANGLE_FAN, 24, GL_UNSIGNED_INT, 0);//画扇形网格三角形个数为8，需要绘制的顶点个数就是三角形个数*3，所以为24
+	
+	//glBindVertexArray(0); // no need to unbind it every time 
+}

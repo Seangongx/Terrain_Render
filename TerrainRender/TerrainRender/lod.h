@@ -6,14 +6,18 @@
 #include "data.h"
 #include "camera.h"
 
+#define IB_BATCH_SIZE 10
+#define IB_SIZE (IB_BATCH_SIZE*1000)
+
 //LOD抽象类
+//注意不允许指针指向不完整的类类型的问题（所有抽象类函数必须实现）
 class CLod
 {
 public:
-	virtual void Build() = 0;				//计算地形层次细节
-	virtual void Init() = 0;				//初始化地形层次细节
-	virtual GLint BuildTrianlges() = 0;		//地形实际渲染三角形片元总数
-	virtual void SetFactor(float f) = 0;	//地形粗糙因子
+	virtual void Build() = 0;							//计算地形层次细节
+	virtual void Init(CTerrain* T, CCamera* C) = 0;		//初始化地形层次细节
+	virtual GLint BuildTrianlges() = 0;					//地形实际渲染三角形片元总数
+	virtual void SetFactor(GLfloat f) = 0;				//地形粗糙因子
 	virtual ~CLod(){}
 
 };
@@ -46,17 +50,22 @@ private:
 	CCamera*				m_Cam;				//摄像机
 	GLfloat					m_cellSize;			//单位距离
 	std::vector<GLint>		m_RenderTable;		//地形渲染表
-	//IDirect3DIndexBuffer9*	m_pIB;			//节点索引缓存（扇形）
+	GLuint*					m_pIB;				//节点索引缓存（扇形）
+	GLuint					m_IBO;				//索引缓冲对象
 	GLint					m_BuildTrianlges;	//三角形总数目
 
 	//私有成员方法...内部使用
-	GLfloat InitVariant(GLint level, GLint x, GLint y);		//初始化节点误差值
-	GLfloat InitVariant_P2C(GLint level, GLint x, GLint y);	//初始化节点误差值（数据案列优先）
+	GLfloat InitVariant(GLint level, GLint x, GLint y);		//初始化节点误差值（数据按行优先）
+	GLfloat InitVariant_P2C(GLint level, GLint x, GLint y);	//初始化节点误差值（数据按列优先）
 	void AttachNode(const NODE & node);						//挂上节点
 	bool NodeIsVisible(const NODE & node);					//节点可见
 	bool NodeCanDivid(const NODE & node);					//节点能分割
 	void DisableNode(const NODE & node);					//使此节点无效
 	void DividNode(const NODE & node);						//拆分此节点
+	void CreatePIB(GLint size);								//创建索引
+	void AttachPIB(GLuint** point, GLint offset);		//附加索引
+	bool UnlockPIB(GLuint** point, GLint offset);		//检查索引
+	void DeletePIB(const GLuint* point);					//清除索引
 
 
 public:
@@ -67,6 +76,8 @@ public:
 	void Build();											//计算地形的LOD
 	GLint BuildTrianlges() { return m_BuildTrianlges; }		//构造的三角形数
 	void SetFactor(GLfloat f) { m_factor = f; }				//设置条件因子
+
+	void Render(GLuint offset, GLint triangles);			//渲染
 
 };
 

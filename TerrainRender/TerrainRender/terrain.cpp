@@ -48,6 +48,12 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 int main()
 {
 	CTerrain data(FILE_VERTICES, FILE_INDICES);
+	CLod_Quadtree lod;
+	
+	lod.Init(&data, &ourCamera);
+	//暂时只实现了四叉树
+	data.SetLodType(&lod);
+
 
 	// glfw: initialize and configure
 	// ------------------------------
@@ -84,11 +90,11 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 	//绘制属性初始化
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//捕捉鼠标光标，让其在窗口内消失
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);//捕捉鼠标光标，让其在窗口内消失
 
 	Shader ourShader("Shaders\\terrain_shader.vs", "Shaders\\terrain_shader.fs");
-
-	data.Create(129);
+	data.GenerateObject();
+	//data.Create(129);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -115,7 +121,7 @@ int main()
 		ourCamera.SetModel_Edit();
 		ourShader.setMat4("model", ourCamera.model);
 
-		data.Render();
+		lod.Build();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------

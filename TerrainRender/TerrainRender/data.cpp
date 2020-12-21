@@ -46,59 +46,41 @@ CTerrain::CTerrain()
 	m_pVerticesStream = NULL;
 	m_pIndicesStream = NULL;
 	m_pVB = NULL;
-	m_pEB = NULL;
+	//m_pEB = NULL;
 	m_size = 0;
 }
+
 CTerrain::~CTerrain()
 {
 	glDeleteVertexArrays(1, &m_VAO);
 	glDeleteBuffers(1, &m_VBO);
 	glDeleteBuffers(1, &m_EBO);
+	m_pVerticesStream = NULL;
+	m_pIndicesStream = NULL;
+	m_pVB = NULL;
 }
+
 CTerrain::CTerrain(const std::string verticesfile)
 {
 	m_vertices.LoadFile(verticesfile, CTerrainFile::VERTICES);
 	m_pVerticesStream = (GLdouble*)m_vertices.GetStream();
 	m_pIndicesStream = NULL;
-	m_pVB = NULL;
-	m_pEB = NULL;
+	m_pVB = m_pVerticesStream;
+	//m_pEB = NULL;
 	m_size = sqrt(m_vertices.GetRow());
 }
+
 CTerrain::CTerrain(const std::string verticesfile, const std::string indicesfile)
 {
 	m_vertices.LoadFile(verticesfile, CTerrainFile::VERTICES);
 	m_indices.LoadFile(indicesfile, CTerrainFile::INDICES);
 	m_pVerticesStream = (GLdouble*)m_vertices.GetStream();
 	m_pIndicesStream = (GLuint*)m_indices.GetStream();
-	m_pVB = NULL;
-	m_pEB = NULL;
+	m_pVB = m_pVerticesStream;
+	//m_pEB = NULL;
 	m_size = sqrt(m_vertices.GetRow());
 }
-bool CTerrain::CreateBuffer()
-{
-	//创建顶点缓存
-	glGenVertexArrays(1, &m_VAO);
-	glGenBuffers(1, &m_VBO);
-	glGenBuffers(1, &m_EBO);
 
-	glBindVertexArray(m_VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, m_vertices.SizeofData(), m_pVerticesStream, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.SizeofData(), m_pIndicesStream, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, m_vertices.GetCol(), GL_DOUBLE, GL_TRUE, m_vertices.GetCol() * sizeof(GLdouble), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glBindVertexArray(0);
-
-	return true;
-}
-void CTerrain::Render()
-{
-	glBindVertexArray(m_VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-	glDrawElements(GL_TRIANGLES, 3 * m_indices.GetRow(), GL_UNSIGNED_INT, 0);//画出的三角形个数就是索引个数，需要绘制的顶点个数就是三角形个数*3
-	//glBindVertexArray(0); // no need to unbind it every time 
-}
 bool CTerrain::Create(GLuint size)
 {
 	unsigned int input = size;
@@ -123,30 +105,82 @@ bool CTerrain::Create(GLuint size)
 
 	return true;
 }
+
+bool CTerrain::CreateBuffer()
+{
+	//创建顶点缓存
+	glGenVertexArrays(1, &m_VAO);
+	glGenBuffers(1, &m_VBO);
+	glGenBuffers(1, &m_EBO);
+
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.SizeofData(), m_pVerticesStream, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.SizeofData(), m_pIndicesStream, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, m_vertices.GetCol(), GL_DOUBLE, GL_TRUE, m_vertices.GetCol() * sizeof(GLdouble), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0);
+
+	return true;
+}
+
+bool CTerrain::GenerateObject()
+{
+	//创建顶点缓存
+	glGenVertexArrays(1, &m_VAO);
+	glGenBuffers(1, &m_VBO);
+
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.SizeofData(), m_pVerticesStream, GL_STATIC_DRAW);
+
+	glBindVertexArray(0);
+	return true;
+}
+
+
+void CTerrain::Render()
+{
+	glBindVertexArray(m_VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+	glDrawElements(GL_TRIANGLES, 3 * m_indices.GetRow(), GL_UNSIGNED_INT, 0);//画出的三角形个数就是索引个数，需要绘制的顶点个数就是三角形个数*3
+	//glBindVertexArray(0); // no need to unbind it every time 
+}
+
 void CTerrain::SetLodType(CLod* lod)
 {
 	m_lod = lod;
 }
+
 void CTerrain::Delete()
 {
 	glDeleteVertexArrays(1, &m_VAO);
 	glDeleteBuffers(1, &m_VBO);
 	glDeleteBuffers(1, &m_EBO);
+	m_pVerticesStream = NULL;
+	m_pIndicesStream = NULL;
+	m_pVB = NULL;
 }
+
 GLuint CTerrain::GetSize()
 {
 	return m_size;
 }
+
+GLdouble CTerrain::GetHeight(GLint _x, GLint _y)
+{
+	return m_pVerticesStream[((_y * m_size) + _x) * m_vertices.GetCol() + 2];
+}
 GLdouble CTerrain::GetHeight_P2C(GLint _x, GLint _y)
 {
-	return m_pVerticesStream[((_y * m_size) + _x) * m_vertices.GetCol() + m_vertices.GetCol() - 1];
+	return m_pVerticesStream[((_x * m_size) + _y) * m_vertices.GetCol() + m_vertices.GetCol() - 1];
 }
+
 glm::vec3 CTerrain::GetPos(GLint _x, GLint _y)
 {
-	return glm::vec3(_x, _y, GetHeight_P2C(_x, _y));
+	return glm::vec3(_x, _y, GetHeight(_x, _y));
 }
-
-
 
 
 #ifdef OLD

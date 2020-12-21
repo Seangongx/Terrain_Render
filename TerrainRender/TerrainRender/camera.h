@@ -47,6 +47,10 @@ public:
 		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));//如果注释掉会有90度的偏转
 		model = glm::scale(model, glm::vec3(0.05f));
 	}
+	glm::vec3 GetPos()
+	{
+		return Position;
+	}
 	//-------------------------------------------代码修改的分界线---------------------------------------------//
 
 	// Camera Attributes
